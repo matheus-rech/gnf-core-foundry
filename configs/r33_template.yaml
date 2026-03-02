@@ -1,0 +1,172 @@
+# R33 Milestone Configuration
+# Phase II (R33): Clinical validation, multi-site reproducibility, regulatory pathway
+
+phase: R33
+study_title: "Digital Biomarker Clinical Validation and Regulatory Preparation"
+pi: "Global NeuroFoundry"
+config_version: "1.0.0"
+
+milestones:
+
+  - milestone_id: R33-M1
+    phase: R33
+    title: "Multi-Site Reproducibility"
+    description: >
+      Demonstrate biomarker panel achieves equivalent reliability across >= 3 sites.
+    due_month: 12
+    logic: AND
+
+    criteria:
+      - criterion_id: C1-MULTISITE-ICC
+        metric: multisite_icc_2k
+        operator: gte
+        threshold: 0.75
+        label: "Cross-site ICC(2,k) >= 0.75"
+        critical: true
+
+      - criterion_id: C2-SITE-INTERACTION
+        metric: site_biomarker_interaction_p
+        operator: gte
+        threshold: 0.05
+        label: "No site x biomarker interaction (p >= 0.05)"
+        critical: true
+
+      - criterion_id: C3-SITE-COUNT
+        metric: n_sites
+        operator: gte
+        threshold: 3
+        label: ">= 3 participating sites"
+        critical: true
+
+      - criterion_id: C4-MULTISITE-N
+        metric: total_sample_size
+        operator: gte
+        threshold: 60
+        label: "Total N >= 60"
+        critical: true
+
+    evidence_required:
+      - artifact_type: site_comparison_table
+        required: true
+      - artifact_type: icc_report
+        required: true
+      - artifact_type: data_quality_report
+        required: true
+
+    go_criteria_summary: >
+      GO if cross-site ICC >= 0.75 with no significant site interaction.
+
+    no_go_actions:
+      - "Audit site-specific SOPs for protocol deviations"
+      - "Re-standardize equipment calibration across sites"
+
+  - milestone_id: R33-M2
+    phase: R33
+    title: "Clinical Validation Against Gold Standard"
+    description: >
+      Demonstrate criterion validity: biomarker correlates with gold standard at r >= 0.5.
+    due_month: 24
+    logic: AND
+
+    criteria:
+      - criterion_id: C5-CRITERION-VALIDITY
+        metric: criterion_validity_r
+        operator: gte
+        threshold: 0.5
+        label: "Criterion validity r >= 0.5"
+        critical: true
+
+      - criterion_id: C6-AUC
+        metric: roc_auc
+        operator: gte
+        threshold: 0.70
+        label: "ROC AUC >= 0.70"
+        critical: true
+
+      - criterion_id: C7-SENSITIVITY
+        metric: sensitivity
+        operator: gte
+        threshold: 0.70
+        label: "Sensitivity >= 0.70"
+        critical: false
+
+      - criterion_id: C8-SPECIFICITY
+        metric: specificity
+        operator: gte
+        threshold: 0.70
+        label: "Specificity >= 0.70"
+        critical: false
+
+      - criterion_id: C9-LARGE-N
+        metric: sample_size
+        operator: gte
+        threshold: 80
+        label: "N >= 80"
+        critical: true
+
+    evidence_required:
+      - artifact_type: effect_size_table
+        required: true
+      - artifact_type: icc_report
+        required: true
+      - artifact_type: adverse_event_log
+        required: true
+
+    go_criteria_summary: >
+      GO if criterion validity r >= 0.5 and AUC >= 0.70 in adequately powered sample.
+
+    no_go_actions:
+      - "Review gold standard selection"
+      - "Explore machine learning feature combinations"
+
+  - milestone_id: R33-M3
+    phase: R33
+    title: "Regulatory Pathway Preparation"
+    description: >
+      Complete regulatory strategy document and analytical validation report.
+    due_month: 36
+    logic: AND
+
+    criteria:
+      - criterion_id: C10-ANALYTICAL-VAL
+        metric: analytical_validation_complete
+        operator: eq
+        threshold: true
+        label: "Analytical validation report complete"
+        critical: true
+
+      - criterion_id: C11-PRESUBMISSION
+        metric: fda_presubmission_complete
+        operator: eq
+        threshold: true
+        label: "FDA pre-Sub filed"
+        critical: false
+
+      - criterion_id: C12-MDC-DEFINED
+        metric: mdc_defined
+        operator: eq
+        threshold: true
+        label: "MDC95 and SRD defined"
+        critical: true
+
+      - criterion_id: C13-CLINICAL-MEANINGFULNESS
+        metric: mcid_defined
+        operator: eq
+        threshold: true
+        label: "MCID defined"
+        critical: false
+
+    evidence_required:
+      - artifact_type: adverse_event_log
+        required: true
+      - artifact_type: data_quality_report
+        required: true
+      - artifact_type: power_analysis
+        required: true
+
+    go_criteria_summary: >
+      GO if analytical validation complete and MDC95 defined.
+
+    no_go_actions:
+      - "Engage regulatory affairs consultant"
+      - "Complete remaining analytical validation studies"

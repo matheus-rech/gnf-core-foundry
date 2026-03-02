@@ -1,0 +1,135 @@
+# R21 Milestone Configuration
+# Phase I (R21): Establish digital biomarker feasibility and test-retest stability
+
+phase: R21
+study_title: "Digital Biomarker Feasibility and Reliability Study"
+pi: "Global NeuroFoundry"
+config_version: "1.0.0"
+
+milestones:
+
+  - milestone_id: R21-M1
+    phase: R21
+    title: "Signal Stability and Test-Retest Reliability"
+    description: >
+      Demonstrate that candidate digital biomarkers exhibit acceptable test-retest
+      reliability (ICC >= 0.75) across two sessions separated by 2-7 days.
+    due_month: 12
+    logic: AND
+
+    criteria:
+      - criterion_id: C1-ICC
+        metric: icc_2k
+        operator: gte
+        threshold: 0.75
+        label: "ICC(2,k) >= 0.75"
+        rationale: "ICC >= 0.75 represents 'good' reliability per Koo & Mae (2016)."
+        critical: true
+
+      - criterion_id: C2-BA-BIAS
+        metric: bland_altman_bias_pct
+        operator: lte
+        threshold: 10.0
+        label: "Bland-Altman bias <= 10% of mean"
+        rationale: "Systematic bias <10% is acceptable for a wearable sensor biomarker."
+        critical: false
+
+      - criterion_id: C3-BA-PROP
+        metric: bland_altman_proportional_bias_p
+        operator: gte
+        threshold: 0.05
+        label: "No proportional bias (p >= 0.05)"
+        rationale: "Proportional bias would indicate measurement artifacts."
+        critical: false
+
+      - criterion_id: C4-DATA-QUALITY
+        metric: data_completeness_pct
+        operator: gte
+        threshold: 90.0
+        label: "Data completeness >= 90%"
+        rationale: "Minimum usable data yield for a wearable sensor study."
+        critical: false
+
+      - criterion_id: C5-SAMPLE
+        metric: sample_size
+        operator: gte
+        threshold: 15
+        label: "n >= 15 per group"
+        rationale: "Minimum for reliable ICC estimation (Shrout & Fleiss)."
+        critical: true
+
+    evidence_required:
+      - artifact_type: icc_report
+        description: "Full ICC table for all candidate biomarkers"
+        required: true
+      - artifact_type: bland_altman_plot
+        description: "Bland-Altman plots for top-3 candidate biomarkers"
+        required: true
+      - artifact_type: data_quality_report
+        description: "Data quality report"
+        required: true
+
+    go_criteria_summary: >
+      GO if ICC criterion (C1-ICC) and sample size criterion (C5-SAMPLE) are met.
+
+    no_go_actions:
+      - "Review sensor placement protocol and retrain assessors"
+      - "Audit data processing pipeline for systematic errors"
+      - "Increase sample size via additional recruitment sites"
+
+  - milestone_id: R21-M2
+    phase: R21
+    title: "Preliminary Sensitivity to Clinical Change"
+    description: >
+      Demonstrate that at least one candidate biomarker shows sensitivity to clinical
+      change, with SRM >= 0.5 or Cohen's d >= 0.5.
+    due_month: 24
+    logic: AND
+
+    criteria:
+      - criterion_id: C6-EFFECT-SIZE
+        metric: cohens_d
+        operator: gte
+        threshold: 0.5
+        label: "Cohen's d >= 0.5 (medium effect)"
+        rationale: "Medium effect size is the minimum for biomarker relevance."
+        critical: true
+
+      - criterion_id: C7-SRM
+        metric: srm
+        operator: gte
+        threshold: 0.5
+        label: "SRM >= 0.5"
+        rationale: "SRM >= 0.5 indicates responsiveness to change."
+        critical: false
+
+      - criterion_id: C8-CONVERGENT
+        metric: convergent_validity_r
+        operator: gte
+        threshold: 0.4
+        label: "Convergent validity r >= 0.4"
+        rationale: "Moderate correlation with clinical gold standard."
+        critical: false
+
+      - criterion_id: C9-ICC-MAINTAINED
+        metric: icc_2k
+        operator: gte
+        threshold: 0.75
+        label: "ICC(2,k) >= 0.75 maintained"
+        rationale: "Reliability must be maintained in the full sample."
+        critical: true
+
+    evidence_required:
+      - artifact_type: effect_size_table
+        required: true
+      - artifact_type: icc_report
+        required: true
+      - artifact_type: power_analysis
+        required: true
+
+    go_criteria_summary: >
+      GO if ICC maintained (C9) and effect size criterion met (C6).
+
+    no_go_actions:
+      - "Explore composite biomarker approaches"
+      - "Re-examine task design for sensitivity"
