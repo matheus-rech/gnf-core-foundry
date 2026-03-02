@@ -1,0 +1,42 @@
+# Core scientific stack
+numpy>=1.26.0
+scipy>=1.12.0
+pandas>=2.2.0
+
+# Statistics
+pingouin>=0.5.4
+statsmodels>=0.14.0
+
+# R bridge
+rpy2>=3.5.14
+
+# Visualization
+matplotlib>=3.8.0
+plotly>=5.20.0
+seaborn>=0.13.0
+
+# Schema validation
+jsonschema>=4.21.0
+pyyaml>=6.0.1
+
+# API
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.6.0
+
+# Data formats
+pyarrow>=15.0.0
+
+# Utilities
+dataclasses-json>=0.6.4
+python-dateutil>=2.9.0
+tqdm>=4.66.0
+loguru>=0.7.2
+
+# Development / testing
+pytest>=8.1.0
+pytest-cov>=5.0.0
+pytest-mock>=3.14.0
+black>=24.3.0
+ruff>=0.3.0
+mypy>=1.9.0
