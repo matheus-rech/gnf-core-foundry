@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GNF Cohort Definition",
+  "description": "Schema defining a study cohort including inclusion/exclusion criteria and participant demographics.",
+  "type": "object",
+  "required": ["cohort_id", "study_id", "phase", "inclusion_criteria", "exclusion_criteria"],
+  "properties": {
+    "cohort_id": {"type": "string", "minLength": 1},
+    "study_id": {"type": "string"},
+    "phase": {"type": "string", "enum": ["R21", "R33", "pilot", "validation", "extension"]},
+    "description": {"type": "string"},
+    "target_n": {"type": "integer", "minimum": 1},
+    "enrolled_n": {"type": "integer", "minimum": 0},
+    "inclusion_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["criterion_id", "description"],
+        "properties": {
+          "criterion_id": {"type": "string"},
+          "description": {"type": "string"},
+          "variable": {"type": "string"},
+          "operator": {"type": "string", "enum": ["eq", "neq", "gt", "gte", "lt", "lte", "in", "not_in", "between"]},
+          "value": {},
+          "unit": {"type": "string"}
+        }
+      }
+    },
+    "exclusion_criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["criterion_id", "description"],
+        "properties": {
+          "criterion_id": {"type": "string"},
+          "description": {"type": "string"},
+          "variable": {"type": "string"},
+          "operator": {"type": "string"},
+          "value": {},
+          "unit": {"type": "string"}
+        }
+      }
+    },
+    "demographics": {
+      "type": "object",
+      "properties": {
+        "age_min": {"type": "number", "minimum": 0},
+        "age_max": {"type": "number", "maximum": 120},
+        "sex": {"type": "array", "items": {"type": "string", "enum": ["M", "F", "O"]}},
+        "diagnosis": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "clinical_scores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["scale_name"],
+        "properties": {
+          "scale_name": {"type": "string"},
+          "version": {"type": "string"},
+          "min_score": {"type": "number"},
+          "max_score": {"type": "number"},
+          "higher_is_worse": {"type": "boolean"}
+        }
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["session_label", "timepoint_days"],
+        "properties": {
+          "session_label": {"type": "string"},
+          "timepoint_days": {"type": "number"},
+          "window_days": {"type": "number"},
+          "description": {"type": "string"}
+        }
+      }
+    }
+  }
+}
